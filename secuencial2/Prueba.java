@@ -1,23 +1,49 @@
 package secuencial2;
+import secuencial.Insercion;
+import java.io.*;
+import com.panayotis.gnuplot.JavaPlot;
 
 public class Prueba {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
 		int TOPE = 10;
 		int arr[];
-		for(int n=1;n<=TOPE;n++) {
-			//generar un arreglo de tamano "n"
-			arr = generar(n);
-			imprimir(arr);
-			Insercion p1 = new Insercion(arr);			
-			p1.ordenar();
-			imprimir(arr);
-			System.out.println("-------------------");
-		}		
+		FileWriter fichero = null;
+        PrintWriter pw = null;
+        try
+        {
+            fichero = new FileWriter("prueba2.txt");
+            pw = new PrintWriter(fichero);
+    		for(int n=1;n<=TOPE;n++) {
+    			arr = generar(n);
+    			//imprimir(arr);
+    			Insercion p1 = new Insercion(arr);			
+    			p1.ordenar();
+    			//imprimir(arr);
+    			//System.out.println(p1.time());
+    			pw.println(p1.time());
+    			//System.out.println("-------------------");
+    		}
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+           if (null != fichero)
+              fichero.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+        }
+        JavaPlot p = new JavaPlot();
+
+        p.addPlot("plot F:\\CDP\\prueba2.txt with lines");
+
+        p.plot();
+
 	}
-	//Generar arreglos de peores casos
-	//Ejemplo: Si n=5 0> arr={5,4,3,2,1}
+
 	private static int[] generar(int n) {
 		
 		int aux=0;
